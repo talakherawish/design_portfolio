@@ -240,7 +240,9 @@
 
   /* ---------- social reels carousel ---------- */
   .reels{ position:relative; max-width:1100px; margin:0 auto; }
-  .reels-track{ position:relative; height:clamp(420px,62vh,620px); }
+  /* the side slides are translated well past the track, and that visual overflow
+     widens the document unless it is clipped here */
+  .reels-track{ position:relative; height:clamp(420px,62vh,620px); overflow:hidden; }
   .reel{
     position:absolute; top:50%; left:50%; height:100%; aspect-ratio:9/16;
     opacity:0; pointer-events:none; z-index:1;
@@ -279,6 +281,9 @@
   .reels-accounts a{ color:var(--navy); text-decoration:none; border-bottom:1px solid var(--line); }
   .reels-accounts a:hover{ border-color:var(--olive); }
   @media (max-width:680px){
+    /* clip at the screen edge rather than the text column, so the neighbours
+       still peek in without the slides widening the page */
+    .reels-track{ width:100vw; margin-inline:calc(50% - 50vw); }
     .reel.is-prev{ transform:translate(calc(-50% - 66%),-50%) scale(.68); }
     .reel.is-next{ transform:translate(calc(-50% + 66%),-50%) scale(.68); }
   }
