@@ -163,12 +163,19 @@
   .g-card img{ display:block; width:100%; height:auto; cursor:zoom-in; }
   #zaan .g-card img{ box-shadow:0 0 16px rgba(43,36,14,0.14); }
   #aqar .gallery{ gap:40px; }
-  #aqar .g-card{ width:auto; }
+  #aqar .g-card{ width:auto; position:relative; }
   /* the exported mockups bake in a drop shadow, so clip back to the phone body;
      the round radius traces the handset's own corner (36px of a 427px frame) */
   #aqar .g-card img{
     width:auto; height:clamp(460px,68vh,660px); max-width:70vw;
     clip-path:inset(1.361% 4.918% 3.401% 4.684% round 8.43% / 4.08%);
+  }
+  /* the renders are bezel-less, so the handset frame is drawn on the clip edge */
+  #aqar .g-card::after{
+    content:""; position:absolute; pointer-events:none;
+    top:1.361%; right:4.918%; bottom:3.401%; left:4.684%;
+    border:clamp(4px,0.55vw,8px) solid var(--navy-deep);
+    border-radius:9.33% / 4.29%;
   }
   /* desktop shows the whole set at once; narrower screens keep swiping.
      the vw-based bleed is dropped here so the row centres without the
