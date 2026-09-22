@@ -164,10 +164,24 @@
   #zaan .g-card img{ box-shadow:0 0 16px rgba(43,36,14,0.14); }
   #aqar .gallery{ gap:40px; }
   #aqar .g-card{ width:auto; }
-  /* the exported mockups carry a baked-in drop shadow; clip it back to the phone body */
+  /* the exported mockups bake in a drop shadow, so clip back to the phone body;
+     the round radius traces the handset's own corner (36px of a 427px frame) */
   #aqar .g-card img{
     width:auto; height:clamp(460px,68vh,660px); max-width:70vw;
-    clip-path:inset(1.361% 4.918% 3.401% 4.684%);
+    clip-path:inset(1.361% 4.918% 3.401% 4.684% round 8.43% / 4.08%);
+  }
+  /* desktop shows the whole set at once; narrower screens keep swiping.
+     the vw-based bleed is dropped here so the row centres without the
+     scrollbar throwing it off — cancelling both wrappers' padding is enough */
+  @media (min-width:900px){
+    #aqar .gallery-shell{ width:auto; left:auto; margin-left:0; }
+    #aqar .gallery{
+      margin-inline:calc(var(--pad-inline) * -2); padding-inline:clamp(16px,2vw,40px);
+      gap:clamp(12px,1.6vw,26px); overflow-x:hidden; justify-content:center;
+    }
+    #aqar .g-card{ flex:1 1 0; min-width:0; max-width:300px; }
+    #aqar .g-card img{ width:100%; height:auto; max-width:none; }
+    #aqar .g-arrow, #aqar .dots{ display:none; }
   }
 
   .g-arrow{
@@ -210,49 +224,60 @@
   @media (max-width:560px){ .lb-arrow{ width:38px; height:38px; } }
 
   /* ---------- dignity (document treatment) ---------- */
-  .doc-figure{ max-width:900px; margin:0 auto; background:var(--paper); border:1px solid var(--line); padding:clamp(10px,2vw,18px); box-shadow:var(--shadow); }
-  .doc-figure img{ border:1px solid var(--line); }
+  /* reaches a little past the wrapper padding so the screenshot reads larger */
+  .doc-figure{ margin:0 calc(var(--pad-inline) * -0.45); }
+  .doc-figure img{ display:block; width:100%; height:auto; }
   .doc-cap{ text-align:center; margin-top:14px; font-size:var(--fs-small); color:var(--ink-soft); letter-spacing:0.02em; }
   .doc-cap b{ color:var(--ink); font-weight:600; }
   .cta-row{ margin-top:26px; display:flex; justify-content:center; }
 
-  /* ---------- instagram carousel ---------- */
-  .ig-carousel{ position:relative; max-width:560px; margin:0 auto; }
-  .ig-track{ position:relative; height:clamp(520px,74vh,700px); }
-  .ig-slot{
-    position:absolute; top:50%; left:50%; width:min(340px,80vw);
+  /* ---------- social reels carousel ---------- */
+  .reels{ position:relative; max-width:1100px; margin:0 auto; }
+  .reels-track{ position:relative; height:clamp(420px,62vh,620px); }
+  .reel{
+    position:absolute; top:50%; left:50%; height:100%; aspect-ratio:9/16;
     opacity:0; pointer-events:none; z-index:1;
     transform:translate(-50%,-50%) scale(.6);
-    transition:transform .5s cubic-bezier(.22,.68,.36,1), opacity .45s ease, filter .45s ease;
+    transition:transform .55s cubic-bezier(.22,.68,.36,1), opacity .45s ease, filter .45s ease;
   }
-  .ig-slot.is-active{ opacity:1; pointer-events:auto; z-index:10; transform:translate(-50%,-50%) scale(1); }
-  .ig-slot.is-prev{ opacity:.5; z-index:5; transform:translate(calc(-50% - 74%),-50%) scale(.74); filter:brightness(.95) saturate(.85); }
-  .ig-slot.is-next{ opacity:.5; z-index:5; transform:translate(calc(-50% + 74%),-50%) scale(.74); filter:brightness(.95) saturate(.85); }
-  .ig-slot.is-far-prev{ opacity:0; transform:translate(calc(-50% - 125%),-50%) scale(.6); }
-  .ig-slot.is-far-next{ opacity:0; transform:translate(calc(-50% + 125%),-50%) scale(.6); }
-  .ig-slot.is-prev .ig-veil, .ig-slot.is-next .ig-veil{ pointer-events:auto; }
-  .ig-slot .instagram-media{ margin:0 !important; min-width:0 !important; width:100% !important; }
-  .ig-veil{
-    position:absolute; inset:0; z-index:3; display:block;
-    border:0; padding:0; background:transparent; cursor:pointer; pointer-events:none;
+  .reel video{
+    display:block; width:100%; height:100%; object-fit:cover;
+    border-radius:20px; background:var(--navy-deep);
   }
-  .ig-slot.is-active .ig-veil{ display:none; }
-  .ig-placeholder{
-    display:flex; align-items:center; justify-content:center; height:min(560px,62vh);
-    background:var(--paper); border:1px solid var(--line); border-radius:10px; box-shadow:var(--shadow);
-    font-size:var(--fs-label); letter-spacing:0.1em; text-transform:uppercase; color:var(--ink-soft);
+  .reel.is-active{ opacity:1; pointer-events:auto; z-index:10; transform:translate(-50%,-50%) scale(1); }
+  .reel.is-prev{ opacity:.42; z-index:5; transform:translate(calc(-50% - 84%),-50%) scale(.76); filter:saturate(.75); }
+  .reel.is-next{ opacity:.42; z-index:5; transform:translate(calc(-50% + 84%),-50%) scale(.76); filter:saturate(.75); }
+  .reel.is-far-prev{ opacity:0; transform:translate(calc(-50% - 148%),-50%) scale(.6); }
+  .reel.is-far-next{ opacity:0; transform:translate(calc(-50% + 148%),-50%) scale(.6); }
+  .reel-veil{
+    position:absolute; inset:0; z-index:3; border:0; padding:0; border-radius:20px;
+    background:transparent; cursor:pointer; pointer-events:none;
   }
-  .ig-carousel .g-arrow{ z-index:20; }
-  .ig-carousel .g-arrow[disabled]{ opacity:0.3; cursor:default; }
-  .ig-carousel .g-arrow.prev{ left:clamp(-22px,-2vw,-4px); }
-  .ig-carousel .g-arrow.next{ right:clamp(-22px,-2vw,-4px); }
-  .ig-dots{ margin-top:12px; flex-wrap:wrap; }
-  .ig-accounts{ text-align:center; margin-top:16px; font-size:var(--fs-small); color:var(--ink-soft); }
-  .ig-accounts a{ color:var(--navy); text-decoration:none; border-bottom:1px solid var(--line); }
-  .ig-accounts a:hover{ border-color:var(--olive); }
+  .reel.is-prev .reel-veil, .reel.is-next .reel-veil{ pointer-events:auto; }
+  .reel-sound{
+    position:absolute; right:12px; bottom:12px; z-index:4;
+    width:38px; height:38px; border-radius:50%; border:0; cursor:pointer;
+    display:none; align-items:center; justify-content:center;
+    background:rgba(20,31,42,0.5); color:var(--paper); backdrop-filter:blur(6px);
+    transition:background .18s ease;
+  }
+  .reel-sound:hover{ background:rgba(20,31,42,0.75); }
+  .reel.is-active .reel-sound{ display:flex; }
+  .reel-caption{
+    text-align:center; margin-top:20px;
+    font-family:var(--font-head); font-style:italic; font-size:var(--fs-h2); color:var(--ink);
+  }
+  .reels .g-arrow{ z-index:20; }
+  .reels .g-arrow[disabled]{ opacity:0.25; cursor:default; }
+  .reels .g-arrow.prev{ left:clamp(-10px,1vw,24px); }
+  .reels .g-arrow.next{ right:clamp(-10px,1vw,24px); }
+  .reels-dots{ margin-top:14px; flex-wrap:wrap; }
+  .reels-accounts{ text-align:center; margin-top:16px; font-size:var(--fs-small); color:var(--ink-soft); }
+  .reels-accounts a{ color:var(--navy); text-decoration:none; border-bottom:1px solid var(--line); }
+  .reels-accounts a:hover{ border-color:var(--olive); }
   @media (max-width:680px){
-    .ig-slot.is-prev{ transform:translate(calc(-50% - 60%),-50%) scale(.66); }
-    .ig-slot.is-next{ transform:translate(calc(-50% + 60%),-50%) scale(.66); }
+    .reel.is-prev{ transform:translate(calc(-50% - 66%),-50%) scale(.68); }
+    .reel.is-next{ transform:translate(calc(-50% + 66%),-50%) scale(.68); }
   }
 
   /* ---------- footer ---------- */
@@ -421,57 +446,78 @@
         <p class="case-desc">Ongoing content design and posting for hospitality brands — from opening-day teasers to everyday community management.</p>
       </div>
 
-      <div class="ig-carousel" data-ig-carousel aria-roledescription="carousel" aria-label="Instagram posts for Zaan Restocafe and The Hive Cafe">
-        <button class="g-arrow prev" type="button" aria-label="Previous post" data-ig-prev>
+      <div class="reels" data-reels aria-roledescription="carousel" aria-label="Social clips">
+        <button class="g-arrow prev" type="button" aria-label="Previous clip" data-reels-prev>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M15 6l-6 6 6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
-        <button class="g-arrow next" type="button" aria-label="Next post" data-ig-next>
+        <button class="g-arrow next" type="button" aria-label="Next clip" data-reels-next>
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M9 6l6 6-6 6" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </button>
 
-        <div class="ig-track" data-ig-track>
-          <div class="ig-slot" data-ig-slot data-permalink="https://www.instagram.com/p/DVya_2pCMPy/">
-            <div data-ig-embed><div class="ig-placeholder">Zaan Restocafe post</div></div>
-            <button class="ig-veil" type="button" tabindex="-1" aria-label="Bring this post to the front"></button>
+        <div class="reels-track" data-reels-track>
+          <div class="reel" data-reel data-caption="meet the new cup">
+            <video src="clips/meet-the-new-cup.mp4" poster="clips/meet-the-new-cup.jpg" muted loop playsinline preload="none"></video>
+            <button class="reel-sound" type="button" aria-label="Turn sound on">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </button>
+            <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
-          <div class="ig-slot" data-ig-slot data-permalink="https://www.instagram.com/reel/DTsnVtECOZo/">
-            <div data-ig-embed><div class="ig-placeholder">Zaan Restocafe reel</div></div>
-            <button class="ig-veil" type="button" tabindex="-1" aria-label="Bring this post to the front"></button>
+          <div class="reel" data-reel data-caption="welcome in">
+            <video src="clips/welcome-in.mp4" poster="clips/welcome-in.jpg" muted loop playsinline preload="none"></video>
+            <button class="reel-sound" type="button" aria-label="Turn sound on">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </button>
+            <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
-          <div class="ig-slot" data-ig-slot data-permalink="https://www.instagram.com/reel/DTn8FnkCFWm/">
-            <div data-ig-embed><div class="ig-placeholder">Zaan Restocafe reel</div></div>
-            <button class="ig-veil" type="button" tabindex="-1" aria-label="Bring this post to the front"></button>
+          <div class="reel" data-reel data-caption="fresh batch, as always">
+            <video src="clips/fresh-batch.mp4" poster="clips/fresh-batch.jpg" muted loop playsinline preload="none"></video>
+            <button class="reel-sound" type="button" aria-label="Turn sound on">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </button>
+            <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
-          <div class="ig-slot" data-ig-slot data-permalink="https://www.instagram.com/reel/DSQTrg5iOJk/">
-            <div data-ig-embed><div class="ig-placeholder">Zaan Restocafe reel</div></div>
-            <button class="ig-veil" type="button" tabindex="-1" aria-label="Bring this post to the front"></button>
+          <div class="reel" data-reel data-caption="ice caramel latte">
+            <video src="clips/ice-caramel-latte.mp4" poster="clips/ice-caramel-latte.jpg" muted loop playsinline preload="none"></video>
+            <button class="reel-sound" type="button" aria-label="Turn sound on">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </button>
+            <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
-          <div class="ig-slot" data-ig-slot data-permalink="https://www.instagram.com/reel/DbQIN3xs-Cn/">
-            <div data-ig-embed><div class="ig-placeholder">The Hive Cafe reel</div></div>
-            <button class="ig-veil" type="button" tabindex="-1" aria-label="Bring this post to the front"></button>
+          <div class="reel" data-reel data-caption="season’s greetings">
+            <video src="clips/season-greetings.mp4" poster="clips/season-greetings.jpg" muted loop playsinline preload="none"></video>
+            <button class="reel-sound" type="button" aria-label="Turn sound on">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </button>
+            <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
-          <div class="ig-slot" data-ig-slot data-permalink="https://www.instagram.com/p/Db08kHpDIXB/">
-            <div data-ig-embed><div class="ig-placeholder">The Hive Cafe post</div></div>
-            <button class="ig-veil" type="button" tabindex="-1" aria-label="Bring this post to the front"></button>
+          <div class="reel" data-reel data-caption="see you around">
+            <video src="clips/see-you-around.mp4" poster="clips/see-you-around.jpg" muted loop playsinline preload="none"></video>
+            <button class="reel-sound" type="button" aria-label="Turn sound on">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </button>
+            <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
-          <div class="ig-slot" data-ig-slot data-permalink="https://www.instagram.com/reel/DbnbxANsuaI/">
-            <div data-ig-embed><div class="ig-placeholder">The Hive Cafe reel</div></div>
-            <button class="ig-veil" type="button" tabindex="-1" aria-label="Bring this post to the front"></button>
+          <div class="reel" data-reel data-caption="cliché">
+            <video src="clips/cliche.mp4" poster="clips/cliche.jpg" muted loop playsinline preload="none"></video>
+            <button class="reel-sound" type="button" aria-label="Turn sound on">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </button>
+            <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
-          <div class="ig-slot" data-ig-slot data-permalink="https://www.instagram.com/reel/DcNu8wMMBe4/">
-            <div data-ig-embed><div class="ig-placeholder">The Hive Cafe reel</div></div>
-            <button class="ig-veil" type="button" tabindex="-1" aria-label="Bring this post to the front"></button>
-          </div>
-          <div class="ig-slot" data-ig-slot data-permalink="https://www.instagram.com/reel/DailypYsBmo/">
-            <div data-ig-embed><div class="ig-placeholder">The Hive Cafe reel</div></div>
-            <button class="ig-veil" type="button" tabindex="-1" aria-label="Bring this post to the front"></button>
+          <div class="reel" data-reel data-caption="cup song">
+            <video src="clips/cup-song.mp4" poster="clips/cup-song.jpg" muted loop playsinline preload="none"></video>
+            <button class="reel-sound" type="button" aria-label="Turn sound on">
+              <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+            </button>
+            <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
         </div>
 
-        <div class="dots ig-dots" data-ig-dots></div>
+        <p class="reel-caption" data-reels-caption>meet the new cup</p>
+        <div class="dots reels-dots" data-reels-dots></div>
       </div>
 
-      <p class="ig-accounts">Content for <a href="https://www.instagram.com/zaan.restocafe8/" target="_blank" rel="noopener noreferrer">@zaan.restocafe8</a> and <a href="https://www.instagram.com/hivecafeps/" target="_blank" rel="noopener noreferrer">@hivecafeps</a></p>
+      <p class="reels-accounts">Content for <a href="https://www.instagram.com/zaan.restocafe8/" target="_blank" rel="noopener noreferrer">@zaan.restocafe8</a> and <a href="https://www.instagram.com/hivecafeps/" target="_blank" rel="noopener noreferrer">@hivecafeps</a></p>
     </div>
   </section>
 
@@ -598,115 +644,123 @@
       else if (e.key === 'ArrowRight') { showLightboxImage(lbIndex + 1); }
     });
 
-    var igCarousel = document.querySelector('[data-ig-carousel]');
-    if (igCarousel) {
-      var igSlots = Array.prototype.slice.call(igCarousel.querySelectorAll('[data-ig-slot]'));
-      var igDotsWrap = igCarousel.querySelector('[data-ig-dots]');
-      var igPrevBtn = igCarousel.querySelector('[data-ig-prev]');
-      var igNextBtn = igCarousel.querySelector('[data-ig-next]');
-      var igTrack = igCarousel.querySelector('[data-ig-track]');
-      var igActive = 0;
-      var igWaiting = false;
+    var reels = document.querySelector('[data-reels]');
+    if (reels) {
+      var reelEls = Array.prototype.slice.call(reels.querySelectorAll('[data-reel]'));
+      var reelDotsWrap = reels.querySelector('[data-reels-dots]');
+      var reelCaption = reels.querySelector('[data-reels-caption]');
+      var reelPrevBtn = reels.querySelector('[data-reels-prev]');
+      var reelNextBtn = reels.querySelector('[data-reels-next]');
+      var reelTrack = reels.querySelector('[data-reels-track]');
+      var reelActive = 0;
+      var reelsOnScreen = false;
 
-      function igProcess(){
-        if (window.instgrm && window.instgrm.Embeds) { window.instgrm.Embeds.process(); return; }
-        if (igWaiting) { return; }
-        igWaiting = true;
-        var tries = 0;
-        var timer = setInterval(function(){
-          tries++;
-          if (window.instgrm && window.instgrm.Embeds) {
-            clearInterval(timer);
-            igWaiting = false;
-            window.instgrm.Embeds.process();
-          } else if (tries > 60) {
-            clearInterval(timer);
-            igWaiting = false;
+      function reelVideo(i){ return reelEls[i] ? reelEls[i].querySelector('video') : null; }
+
+      // only the centred clip ever plays, and only while the carousel is in view
+      function reelSync(){
+        reelEls.forEach(function(el, i){
+          var v = el.querySelector('video');
+          if (!v) { return; }
+          if (i === reelActive && reelsOnScreen && !reduce) {
+            if (v.preload === 'none') { v.preload = 'auto'; v.load(); }
+            var p = v.play();
+            if (p && p.catch) { p.catch(function(){}); }
+          } else {
+            v.pause();
+            if (i !== reelActive) { v.muted = true; v.currentTime = 0; }
           }
-        }, 250);
+        });
+        reels.querySelectorAll('.reel-sound').forEach(function(btn){
+          var v = btn.closest('[data-reel]').querySelector('video');
+          btn.setAttribute('aria-label', v && !v.muted ? 'Turn sound off' : 'Turn sound on');
+          var wave = btn.querySelector('.reel-wave'), mute = btn.querySelector('.reel-mute');
+          if (wave && mute) {
+            var on = v && !v.muted;
+            wave.style.display = on ? '' : 'none';
+            mute.style.display = on ? 'none' : '';
+          }
+        });
       }
 
-      // Instagram sizes each embed itself once it loads, so the track can't use a fixed height.
-      function igSyncHeight(){
-        var slot = igSlots[igActive];
-        if (!slot) { return; }
-        var inner = slot.querySelector('iframe') || slot.querySelector('[data-ig-embed]');
-        var h = inner ? inner.offsetHeight : 0;
-        if (h > 120) { igTrack.style.height = Math.round(h + 20) + 'px'; }
+      function reelPreload(i){
+        [i - 1, i, i + 1].forEach(function(n){
+          var v = reelVideo(n);
+          if (v && v.preload === 'none') { v.preload = 'metadata'; }
+        });
       }
 
-      function igMount(i){
-        var slot = igSlots[i];
-        if (!slot || slot.getAttribute('data-mounted') === '1') { return; }
-        var host = slot.querySelector('[data-ig-embed]');
-        var quote = document.createElement('blockquote');
-        quote.className = 'instagram-media';
-        quote.setAttribute('data-instgrm-permalink', slot.getAttribute('data-permalink'));
-        quote.setAttribute('data-instgrm-version', '14');
-        host.innerHTML = '';
-        host.appendChild(quote);
-        slot.setAttribute('data-mounted', '1');
-        igProcess();
-        [600, 1400, 2600].forEach(function(ms){ setTimeout(igSyncHeight, ms); });
-        if ('ResizeObserver' in window) {
-          new ResizeObserver(igSyncHeight).observe(host);
-        }
-      }
-
-      igSlots.forEach(function(slot, i){
-        var dot = document.createElement('button');
-        dot.type = 'button';
-        dot.className = 'dot';
-        dot.setAttribute('aria-label', 'Go to post ' + (i + 1) + ' of ' + igSlots.length);
-        dot.addEventListener('click', function(){ igGoTo(i); });
-        igDotsWrap.appendChild(dot);
-        slot.querySelector('.ig-veil').addEventListener('click', function(){ igGoTo(i); });
-      });
-      var igDots = Array.prototype.slice.call(igDotsWrap.children);
-
-      function igRender(){
-        igSlots.forEach(function(slot, i){
-          var d = i - igActive;
+      function reelRender(){
+        reelEls.forEach(function(el, i){
+          var d = i - reelActive;
           var state = d === 0 ? 'is-active'
             : d === -1 ? 'is-prev'
             : d === 1 ? 'is-next'
             : d < 0 ? 'is-far-prev' : 'is-far-next';
-          slot.className = 'ig-slot ' + state;
-          slot.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
-          if (d >= -1 && d <= 1) { igMount(i); }
+          el.className = 'reel ' + state;
+          el.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
         });
-        igDots.forEach(function(dot, i){ dot.setAttribute('aria-current', i === igActive ? 'true' : 'false'); });
-        igPrevBtn.disabled = igActive === 0;
-        igNextBtn.disabled = igActive === igSlots.length - 1;
-        igSyncHeight();
+        reelDots.forEach(function(dot, i){ dot.setAttribute('aria-current', i === reelActive ? 'true' : 'false'); });
+        reelCaption.textContent = reelEls[reelActive].getAttribute('data-caption') || '';
+        reelPrevBtn.disabled = reelActive === 0;
+        reelNextBtn.disabled = reelActive === reelEls.length - 1;
+        reelPreload(reelActive);
+        reelSync();
       }
 
-      function igGoTo(i){
-        igActive = Math.max(0, Math.min(igSlots.length - 1, i));
-        igRender();
+      function reelGoTo(i){
+        reelActive = Math.max(0, Math.min(reelEls.length - 1, i));
+        reelRender();
       }
 
-      igPrevBtn.addEventListener('click', function(){ igGoTo(igActive - 1); });
-      igNextBtn.addEventListener('click', function(){ igGoTo(igActive + 1); });
+      reelEls.forEach(function(el, i){
+        var dot = document.createElement('button');
+        dot.type = 'button';
+        dot.className = 'dot';
+        dot.setAttribute('aria-label', 'Go to clip ' + (i + 1) + ' of ' + reelEls.length);
+        dot.addEventListener('click', function(){ reelGoTo(i); });
+        reelDotsWrap.appendChild(dot);
+        el.querySelector('.reel-veil').addEventListener('click', function(){ reelGoTo(i); });
+        el.querySelector('.reel-sound').addEventListener('click', function(){
+          var v = el.querySelector('video');
+          v.muted = !v.muted;
+          if (!v.muted) { var p = v.play(); if (p && p.catch) { p.catch(function(){}); } }
+          reelSync();
+        });
+      });
+      var reelDots = Array.prototype.slice.call(reelDotsWrap.children);
 
-      igCarousel.setAttribute('tabindex', '0');
-      igCarousel.addEventListener('keydown', function(e){
-        if (e.key === 'ArrowLeft') { e.preventDefault(); igGoTo(igActive - 1); }
-        else if (e.key === 'ArrowRight') { e.preventDefault(); igGoTo(igActive + 1); }
+      reelPrevBtn.addEventListener('click', function(){ reelGoTo(reelActive - 1); });
+      reelNextBtn.addEventListener('click', function(){ reelGoTo(reelActive + 1); });
+
+      reels.setAttribute('tabindex', '0');
+      reels.addEventListener('keydown', function(e){
+        if (e.key === 'ArrowLeft') { e.preventDefault(); reelGoTo(reelActive - 1); }
+        else if (e.key === 'ArrowRight') { e.preventDefault(); reelGoTo(reelActive + 1); }
       });
 
-      var igTouchX = null;
-      igTrack.addEventListener('touchstart', function(e){ igTouchX = e.touches[0].clientX; }, { passive: true });
-      igTrack.addEventListener('touchend', function(e){
-        if (igTouchX === null) { return; }
-        var dx = e.changedTouches[0].clientX - igTouchX;
-        igTouchX = null;
-        if (Math.abs(dx) > 40) { igGoTo(igActive + (dx < 0 ? 1 : -1)); }
+      var reelTouchX = null;
+      reelTrack.addEventListener('touchstart', function(e){ reelTouchX = e.touches[0].clientX; }, { passive: true });
+      reelTrack.addEventListener('touchend', function(e){
+        if (reelTouchX === null) { return; }
+        var dx = e.changedTouches[0].clientX - reelTouchX;
+        reelTouchX = null;
+        if (Math.abs(dx) > 40) { reelGoTo(reelActive + (dx < 0 ? 1 : -1)); }
       });
 
-      igRender();
+      if ('IntersectionObserver' in window) {
+        new IntersectionObserver(function(entries){
+          entries.forEach(function(entry){
+            reelsOnScreen = entry.isIntersecting;
+            reelSync();
+          });
+        }, { threshold: 0.35 }).observe(reels);
+      } else {
+        reelsOnScreen = true;
+      }
+
+      reelRender();
     }
 
   })();
 </script>
-<script async src="https://www.instagram.com/embed.js"></script>
