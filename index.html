@@ -270,10 +270,6 @@
   }
   .reel-sound:hover{ background:rgba(20,31,42,0.75); }
   .reel.is-active .reel-sound{ display:flex; }
-  .reel-caption{
-    text-align:center; margin-top:20px;
-    font-family:var(--font-head); font-style:italic; font-size:var(--fs-h2); color:var(--ink);
-  }
   .reels .g-arrow{ z-index:20; }
   .reels .g-arrow[disabled]{ opacity:0.25; cursor:default; }
   .reels .g-arrow.prev{ left:clamp(-10px,1vw,24px); }
@@ -462,56 +458,56 @@
         </button>
 
         <div class="reels-track" data-reels-track>
-          <div class="reel" data-reel data-caption="meet the new cup">
+          <div class="reel" data-reel>
             <video src="clips/meet-the-new-cup.mp4" poster="clips/meet-the-new-cup.jpg" muted loop playsinline preload="none"></video>
             <button class="reel-sound" type="button" aria-label="Turn sound on">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             </button>
             <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
-          <div class="reel" data-reel data-caption="welcome in">
+          <div class="reel" data-reel>
             <video src="clips/welcome-in.mp4" poster="clips/welcome-in.jpg" muted loop playsinline preload="none"></video>
             <button class="reel-sound" type="button" aria-label="Turn sound on">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             </button>
             <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
-          <div class="reel" data-reel data-caption="fresh batch, as always">
+          <div class="reel" data-reel>
             <video src="clips/fresh-batch.mp4" poster="clips/fresh-batch.jpg" muted loop playsinline preload="none"></video>
             <button class="reel-sound" type="button" aria-label="Turn sound on">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             </button>
             <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
-          <div class="reel" data-reel data-caption="ice caramel latte">
+          <div class="reel" data-reel>
             <video src="clips/ice-caramel-latte.mp4" poster="clips/ice-caramel-latte.jpg" muted loop playsinline preload="none"></video>
             <button class="reel-sound" type="button" aria-label="Turn sound on">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             </button>
             <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
-          <div class="reel" data-reel data-caption="season’s greetings">
+          <div class="reel" data-reel>
             <video src="clips/season-greetings.mp4" poster="clips/season-greetings.jpg" muted loop playsinline preload="none"></video>
             <button class="reel-sound" type="button" aria-label="Turn sound on">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             </button>
             <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
-          <div class="reel" data-reel data-caption="see you around">
+          <div class="reel" data-reel>
             <video src="clips/see-you-around.mp4" poster="clips/see-you-around.jpg" muted loop playsinline preload="none"></video>
             <button class="reel-sound" type="button" aria-label="Turn sound on">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             </button>
             <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
-          <div class="reel" data-reel data-caption="cliché">
+          <div class="reel" data-reel>
             <video src="clips/cliche.mp4" poster="clips/cliche.jpg" muted loop playsinline preload="none"></video>
             <button class="reel-sound" type="button" aria-label="Turn sound on">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
             </button>
             <button class="reel-veil" type="button" tabindex="-1" aria-label="Bring this clip to the front"></button>
           </div>
-          <div class="reel" data-reel data-caption="cup song">
+          <div class="reel" data-reel>
             <video src="clips/cup-song.mp4" poster="clips/cup-song.jpg" muted loop playsinline preload="none"></video>
             <button class="reel-sound" type="button" aria-label="Turn sound on">
               <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 9v6h4l5 4V5L8 9H4Z" fill="currentColor"/><path class="reel-wave" d="M16.5 8.5a5 5 0 0 1 0 7M19 6a8.5 8.5 0 0 1 0 12" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/><path class="reel-mute" d="M17 9.5l4 5M21 9.5l-4 5" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
@@ -520,7 +516,6 @@
           </div>
         </div>
 
-        <p class="reel-caption" data-reels-caption>meet the new cup</p>
         <div class="dots reels-dots" data-reels-dots></div>
       </div>
 
@@ -655,7 +650,6 @@
     if (reels) {
       var reelEls = Array.prototype.slice.call(reels.querySelectorAll('[data-reel]'));
       var reelDotsWrap = reels.querySelector('[data-reels-dots]');
-      var reelCaption = reels.querySelector('[data-reels-caption]');
       var reelPrevBtn = reels.querySelector('[data-reels-prev]');
       var reelNextBtn = reels.querySelector('[data-reels-next]');
       var reelTrack = reels.querySelector('[data-reels-track]');
@@ -708,7 +702,6 @@
           el.setAttribute('aria-hidden', d === 0 ? 'false' : 'true');
         });
         reelDots.forEach(function(dot, i){ dot.setAttribute('aria-current', i === reelActive ? 'true' : 'false'); });
-        reelCaption.textContent = reelEls[reelActive].getAttribute('data-caption') || '';
         reelPrevBtn.disabled = reelActive === 0;
         reelNextBtn.disabled = reelActive === reelEls.length - 1;
         reelPreload(reelActive);
