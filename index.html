@@ -162,8 +162,13 @@
   .g-card{ scroll-snap-align:center; flex:0 0 auto; width:min(320px,70vw); overflow-anchor:none; }
   .g-card img{ display:block; width:100%; height:auto; cursor:zoom-in; }
   #zaan .g-card img{ box-shadow:0 0 16px rgba(43,36,14,0.14); }
+  #aqar .gallery{ gap:40px; }
   #aqar .g-card{ width:auto; }
-  #aqar .g-card img{ width:auto; height:clamp(400px,60vh,580px); max-width:70vw; }
+  /* the exported mockups carry a baked-in drop shadow; clip it back to the phone body */
+  #aqar .g-card img{
+    width:auto; height:clamp(460px,68vh,660px); max-width:70vw;
+    clip-path:inset(1.361% 4.918% 3.401% 4.684%);
+  }
 
   .g-arrow{
     position:absolute; top:44%; translate:0 -50%;
